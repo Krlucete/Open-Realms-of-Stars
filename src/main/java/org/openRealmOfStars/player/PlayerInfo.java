@@ -19,12 +19,7 @@ import org.openRealmOfStars.player.fleet.Fleet;
 import org.openRealmOfStars.player.fleet.FleetList;
 import org.openRealmOfStars.player.message.MessageList;
 import org.openRealmOfStars.player.ship.ShipStat;
-import org.openRealmOfStars.player.ship.generator.ShipGenerator;
-import org.openRealmOfStars.player.ship.shipdesign.ShipDesign;
-import org.openRealmOfStars.player.tech.Tech;
-import org.openRealmOfStars.player.tech.TechFactory;
 import org.openRealmOfStars.player.tech.TechList;
-import org.openRealmOfStars.player.tech.TechType;
 import org.openRealmOfStars.starMap.Coordinate;
 import org.openRealmOfStars.starMap.StarMap;
 import org.openRealmOfStars.starMap.Sun;
@@ -182,7 +177,7 @@ public class PlayerInfo {
       default:
         ErrorLogger.log("Unexpected race:" + getRace());
     }
-    initialSet.setRacesInfo(techList,this);
+    initialSet.setRacesInfo(techList, this);
   }
 
   /**

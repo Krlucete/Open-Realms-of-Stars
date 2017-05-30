@@ -1,6 +1,14 @@
 package org.openRealmOfStars.player.InitalSetRace;
 
 import org.openRealmOfStars.player.PlayerInfo;
+import org.openRealmOfStars.player.ship.ShipStat;
+import org.openRealmOfStars.player.ship.generator.ShipGenerator;
+import org.openRealmOfStars.player.ship.shipdesign.ShipDesign;
+import org.openRealmOfStars.player.tech.Tech;
+import org.openRealmOfStars.player.tech.TechFactory;
+import org.openRealmOfStars.player.tech.TechList;
+import org.openRealmOfStars.player.tech.TechType;
+
 
 /**
 *
@@ -26,55 +34,95 @@ import org.openRealmOfStars.player.PlayerInfo;
 *
 */
 
-import org.openRealmOfStars.player.ship.ShipStat;
-import org.openRealmOfStars.player.ship.generator.ShipGenerator;
-import org.openRealmOfStars.player.ship.shipdesign.ShipDesign;
-import org.openRealmOfStars.player.tech.Tech;
-import org.openRealmOfStars.player.tech.TechFactory;
-import org.openRealmOfStars.player.tech.TechList;
-import org.openRealmOfStars.player.tech.TechType;
-
 public abstract class InitialSetRaces {
-  
   /**
-   * Set combat tech to techList
+   * tech
    */
-  protected void setCombat(TechList techList){}
-  
+  private Tech tech;
+
   /**
-   * Set defence tech to techList
+   * Add combat tech to techList
+   * @param techList is PlayerInfo's techList
    */
-  protected void setDefence(TechList techList){}
-  
+  protected void additionalCombat(final TechList techList) { }
+
   /**
-   * Set hull tech to techList
+   * Add defence tech to techList
+   * @param techList is PlayerInfo's techList
    */
-  protected void setHull(TechList techList){}
-  
+  protected void additionalDefence(final TechList techList) { }
+
   /**
-   * Set propusion tech to techList
+   * Add hull tech to techList
+   * @param techList is PlayerInfo's techList
    */
-  protected void setPropusion(TechList techList){}
-  
+  protected void additionalHull(final TechList techList) { }
+
   /**
-   * Set Electrics tech to techList
+   * Add propusion tech to techList
+   * @param techList is PlayerInfo's techList
    */
-  protected void setElectrics(TechList techList){}
-  
+  protected void additionalPropusion(final TechList techList) { }
+
   /**
-   * add ship
+   * Add Electrics tech to techList
+   * @param techList is PlayerInfo's techList
    */
-  protected void addShip(PlayerInfo playerInfo){}
-  
+  protected void additionalElectrics(final TechList techList) { }
+
   /**
-   * template method
+   * Add ship
+   * @param playerInfo is object of this class call
    */
-  public void setRacesInfo(TechList techList, PlayerInfo playerInfo) {
-    setCombat(techList);
-    setDefence(techList);
-    setHull(techList);
-    setPropusion(techList);
-    setElectrics(techList);
-    addShip(playerInfo);
+  protected void additionalShip(final PlayerInfo playerInfo) { }
+
+  /**
+   * template method of initial setting
+   * @param techList is PlayerInfo's techList
+   * @param playerInfo is object of this class call
+   */
+  public void setRacesInfo(final TechList techList,
+                            final PlayerInfo playerInfo) {
+    tech = TechFactory.createRandomTech(TechType.Combat, 1,
+        techList.getListForTypeAndLevel(TechType.Combat, 1));
+    if (tech != null) {
+      techList.addTech(tech);
+    }
+    additionalCombat(techList);
+
+    tech = TechFactory.createRandomTech(TechType.Defense, 1,
+        techList.getListForTypeAndLevel(TechType.Defense, 1));
+    if (tech != null) {
+      techList.addTech(tech);
+    }
+    additionalDefence(techList);
+
+    tech = TechFactory.createHullTech("Colony", 1);
+    if (tech != null) {
+      techList.addTech(tech);
+    }
+    tech = TechFactory.createHullTech("Scout Mk1", 1);
+    if (tech != null) {
+      techList.addTech(tech);
+    }
+    additionalHull(techList);
+
+    tech = TechFactory.createPropulsionTech("Ion drive Mk1", 1);
+    if (tech != null) {
+      techList.addTech(tech);
+    }
+    tech = TechFactory.createPropulsionTech("Fission source Mk1", 1);
+    if (tech != null) {
+      techList.addTech(tech);
+    }
+    additionalElectrics(techList);
+
+    ShipDesign design = ShipGenerator.createScout(playerInfo);
+    ShipStat stat = new ShipStat(design);
+    playerInfo.addShipStat(stat);
+    design = ShipGenerator.createColony(playerInfo, false);
+    stat = new ShipStat(design);
+    playerInfo.addShipStat(stat);
+    additionalShip(playerInfo);
   }
 }
