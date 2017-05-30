@@ -8,6 +8,10 @@ import java.util.Collections;
 
 import org.openRealmOfStars.AI.Mission.MissionList;
 import org.openRealmOfStars.AI.PathFinding.PathPoint;
+import org.openRealmOfStars.player.InitalSetRace.InitialSetDefault;
+import org.openRealmOfStars.player.InitalSetRace.InitialSetGreyans;
+import org.openRealmOfStars.player.InitalSetRace.InitialSetRaces;
+import org.openRealmOfStars.player.InitalSetRace.InitialSetSporks;
 import org.openRealmOfStars.player.SpaceRace.SpaceRace;
 import org.openRealmOfStars.player.SpaceRace.SpaceRaceUtility;
 import org.openRealmOfStars.player.diplomacy.Diplomacy;
@@ -15,12 +19,7 @@ import org.openRealmOfStars.player.fleet.Fleet;
 import org.openRealmOfStars.player.fleet.FleetList;
 import org.openRealmOfStars.player.message.MessageList;
 import org.openRealmOfStars.player.ship.ShipStat;
-import org.openRealmOfStars.player.ship.generator.ShipGenerator;
-import org.openRealmOfStars.player.ship.shipdesign.ShipDesign;
-import org.openRealmOfStars.player.tech.Tech;
-import org.openRealmOfStars.player.tech.TechFactory;
 import org.openRealmOfStars.player.tech.TechList;
-import org.openRealmOfStars.player.tech.TechType;
 import org.openRealmOfStars.starMap.Coordinate;
 import org.openRealmOfStars.starMap.StarMap;
 import org.openRealmOfStars.starMap.Sun;
@@ -148,144 +147,37 @@ public class PlayerInfo {
     fleets = new FleetList();
     setHuman(false);
     setRace(race);
+    InitialSetRaces initialSet = null;
     diplomacy = new Diplomacy(maxPlayers, index);
     switch (getRace()) {
-    case HUMAN:
-    case MECHIONS:
-    case CENTAURS: {
+      case HUMAN:
+      case MECHIONS:
+      case CENTAURS: {
       /*
        * Humans, Mechions and Centaurs get 1 Combat, 1 Defense, Scout and Colony
        */
-      Tech tech = TechFactory.createRandomTech(TechType.Combat, 1,
-          techList.getListForTypeAndLevel(TechType.Combat, 1));
-      if (tech != null) {
-        techList.addTech(tech);
+        initialSet = new InitialSetDefault();
+        break;
       }
-      tech = TechFactory.createRandomTech(TechType.Defense, 1,
-          techList.getListForTypeAndLevel(TechType.Defense, 1));
-      if (tech != null) {
-        techList.addTech(tech);
+      case SPORKS: {
+        /*
+         * Sporks get 2 Combat, 1 Defense, Scout and Colony
+         */
+        initialSet = new InitialSetSporks();
+        break;
       }
-      tech = TechFactory.createHullTech("Colony", 1);
-      if (tech != null) {
-        techList.addTech(tech);
-      }
-      tech = TechFactory.createHullTech("Scout Mk1", 1);
-      if (tech != null) {
-        techList.addTech(tech);
-      }
-      tech = TechFactory.createPropulsionTech("Ion drive Mk1", 1);
-      if (tech != null) {
-        techList.addTech(tech);
-      }
-      tech = TechFactory.createPropulsionTech("Fission source Mk1", 1);
-      if (tech != null) {
-        techList.addTech(tech);
-      }
-      ShipDesign design = ShipGenerator.createScout(this);
-      ShipStat stat = new ShipStat(design);
-      addShipStat(stat);
-      design = ShipGenerator.createColony(this, false);
-      stat = new ShipStat(design);
-      addShipStat(stat);
-      break;
-    }
-    case SPORKS: {
-      /*
-       * Sporks get 2 Combat, 1 Defense, Scout and Colony
-       */
-      Tech tech = TechFactory.createRandomTech(TechType.Combat, 1,
-          techList.getListForTypeAndLevel(TechType.Combat, 1));
-      if (tech != null) {
-        techList.addTech(tech);
-      }
-      tech = TechFactory.createRandomTech(TechType.Combat, 1,
-          techList.getListForTypeAndLevel(TechType.Combat, 1));
-      if (tech != null) {
-        techList.addTech(tech);
-      }
-      tech = TechFactory.createRandomTech(TechType.Defense, 1,
-          techList.getListForTypeAndLevel(TechType.Defense, 1));
-      if (tech != null) {
-        techList.addTech(tech);
-      }
-      tech = TechFactory.createHullTech("Colony", 1);
-      if (tech != null) {
-        techList.addTech(tech);
-      }
-      tech = TechFactory.createHullTech("Scout Mk1", 1);
-      if (tech != null) {
-        techList.addTech(tech);
-      }
-      tech = TechFactory.createPropulsionTech("Ion drive Mk1", 1);
-      if (tech != null) {
-        techList.addTech(tech);
-      }
-      tech = TechFactory.createPropulsionTech("Fission source Mk1", 1);
-      if (tech != null) {
-        techList.addTech(tech);
-      }
-      ShipDesign design = ShipGenerator.createScout(this);
-      ShipStat stat = new ShipStat(design);
-      addShipStat(stat);
-      design = ShipGenerator.createColony(this, false);
-      stat = new ShipStat(design);
-      addShipStat(stat);
-      break;
-    }
-    case GREYANS: {
+      case GREYANS: {
       /*
        * Greyans get 1 Combat, 1 Defense, Scout and Colony, 1 propulsion, 1
        * electronics
        */
-      Tech tech = TechFactory.createRandomTech(TechType.Combat, 1,
-          techList.getListForTypeAndLevel(TechType.Combat, 1));
-      if (tech != null) {
-        techList.addTech(tech);
+        initialSet = new InitialSetGreyans();
+        break;
       }
-      tech = TechFactory.createRandomTech(TechType.Defense, 1,
-          techList.getListForTypeAndLevel(TechType.Defense, 1));
-      if (tech != null) {
-        techList.addTech(tech);
-      }
-      tech = TechFactory.createHullTech("Colony", 1);
-      if (tech != null) {
-        techList.addTech(tech);
-      }
-      tech = TechFactory.createHullTech("Scout Mk1", 1);
-      if (tech != null) {
-        techList.addTech(tech);
-      }
-      tech = TechFactory.createPropulsionTech("Ion drive Mk1", 1);
-      if (tech != null) {
-        techList.addTech(tech);
-      }
-      tech = TechFactory.createPropulsionTech("Fission source Mk1", 1);
-      if (tech != null) {
-        techList.addTech(tech);
-      }
-      tech = TechFactory.createRandomTech(TechType.Propulsion, 1,
-          techList.getListForTypeAndLevel(TechType.Propulsion, 1));
-      if (tech != null) {
-        techList.addTech(tech);
-      }
-      tech = TechFactory.createRandomTech(TechType.Electrics, 1,
-          techList.getListForTypeAndLevel(TechType.Electrics, 1));
-      if (tech != null) {
-        techList.addTech(tech);
-      }
-      ShipDesign design = ShipGenerator.createScout(this);
-      ShipStat stat = new ShipStat(design);
-      addShipStat(stat);
-      design = ShipGenerator.createColony(this, false);
-      stat = new ShipStat(design);
-      addShipStat(stat);
-      break;
+      default:
+        ErrorLogger.log("Unexpected race:" + getRace());
     }
-    default:
-      ErrorLogger.log("Unexpected race:" + getRace());
-    }
-
+    initialSet.setRacesInfo(techList, this);
   }
 
   /**
