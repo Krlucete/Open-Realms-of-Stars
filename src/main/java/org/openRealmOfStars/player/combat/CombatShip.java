@@ -27,7 +27,7 @@ import org.openRealmOfStars.player.ship.ShipComponent;
  *
  */
 
-public class CombatShip implements Comparable<CombatShip> {
+public class CombatShip implements Comparable<CombatShip>, CombatShipComponent {
 
   /**
    * Ship information
@@ -93,7 +93,7 @@ public class CombatShip implements Comparable<CombatShip> {
     this.setBonusAccuracy(0);
     reInitShipForRound();
   }
-
+  @Override
   /**
    * Get the actual ship
    * @return get Ship
@@ -133,7 +133,7 @@ public class CombatShip implements Comparable<CombatShip> {
   public void setY(final int y) {
     this.y = y;
   }
-
+  @Override
   /**
    * Get Player info for combat ship
    * @return Player info for combat ship
@@ -247,6 +247,7 @@ public class CombatShip implements Comparable<CombatShip> {
     return movesLeft;
   }
 
+  @Override
   /**
    * Reinitialize ship for next round
    */
@@ -264,7 +265,6 @@ public class CombatShip implements Comparable<CombatShip> {
     setAiShotsLeft(weapons);
     ship.regenerateShield();
   }
-
   /**
    * Is certain component used or not yet during this round
    * @param index Component index
@@ -276,7 +276,7 @@ public class CombatShip implements Comparable<CombatShip> {
     }
     return true;
   }
-
+  @Override
   /**
    * Use certain component for this round
    * @param index Component index
@@ -319,7 +319,7 @@ public class CombatShip implements Comparable<CombatShip> {
   public int getBonusAccuracy() {
     return bonusAccuracy;
   }
-
+  @Override
   /**
    * Define bonus accuracy for combat ship.
    * @param bonusAccuracy for combat ship
@@ -327,5 +327,6 @@ public class CombatShip implements Comparable<CombatShip> {
   public void setBonusAccuracy(final int bonusAccuracy) {
     this.bonusAccuracy = bonusAccuracy;
   }
+
 
 }
