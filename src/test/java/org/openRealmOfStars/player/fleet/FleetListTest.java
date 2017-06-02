@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mockito;
 import org.openRealmOfStars.player.ship.Ship;
-import org.openRealmOfStars.player.ship.ShipHull;
+import org.openRealmOfStars.player.ship.shiphull.product.ShipHull;
 import org.openRealmOfStars.starMap.Coordinate;
 
 /**
