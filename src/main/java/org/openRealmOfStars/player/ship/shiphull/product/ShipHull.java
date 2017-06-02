@@ -1,8 +1,12 @@
-package org.openRealmOfStars.player.ship;
+package org.openRealmOfStars.player.ship.shiphull.product;
 
 import java.awt.image.BufferedImage;
 
 import org.openRealmOfStars.player.SpaceRace.SpaceRace;
+import org.openRealmOfStars.player.ship.ShipHullType;
+import org.openRealmOfStars.player.ship.ShipImage;
+import org.openRealmOfStars.player.ship.ShipImages;
+import org.openRealmOfStars.player.ship.ShipSize;
 import org.openRealmOfStars.utilities.IOUtilities;
 
 /**
@@ -24,10 +28,10 @@ import org.openRealmOfStars.utilities.IOUtilities;
  * along with this program; if not, see http://www.gnu.org/licenses/
  *
  *
- * Ship hull for handling the very base of ship
+ * Ship hull (Abstract Product)
  *
  */
-public class ShipHull {
+public abstract class ShipHull {
 
   /**
    * Unique index for factories and saving the game
@@ -107,7 +111,7 @@ public class ShipHull {
    * @param metal metal cost
    * @param race whom builds the ship hull
    */
-  public ShipHull(final int index, final String name, final int maxSlots,
+    protected ShipHull(final int index, final String name, final int maxSlots,
       final int hull, final ShipHullType type, final ShipSize size,
       final int cost, final int metal, final SpaceRace race) {
     this.index = index;

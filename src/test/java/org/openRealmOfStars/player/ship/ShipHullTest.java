@@ -6,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.openRealmOfStars.player.SpaceRace.SpaceRace;
+import org.openRealmOfStars.player.ship.shiphull.product.HullScoutMK1;
+import org.openRealmOfStars.player.ship.shiphull.product.ShipHull;
 
 /**
  * 
@@ -32,35 +34,33 @@ public class ShipHullTest {
 
   @Test
   @Category(org.openRealmOfStars.UnitTest.class)
-  public void testShipHull() {
-    ShipHull hull = new ShipHull(0, "Test", 4, 1, ShipHullType.NORMAL,
-        ShipSize.SMALL, 8, 10, SpaceRace.GREYANS);
-    assertEquals(8, hull.getCost());
-    assertEquals(10, hull.getMetalCost());
+  public void testShipHullScoutMK1() {
+    ShipHull hull = new HullScoutMK1(SpaceRace.GREYANS);
+    assertEquals(5, hull.getCost());
+    assertEquals(5, hull.getMetalCost());
     assertEquals(0, hull.getIndex());
-    assertEquals("Test", hull.getName());
+    assertEquals("Scout Mk1", hull.getName());
     assertEquals(SpaceRace.GREYANS, hull.getRace());
     assertEquals(1, hull.getSlotHull());
     assertEquals(ShipSize.SMALL, hull.getSize());
     assertEquals(4, hull.getMaxSlot());
     String tmp = hull.toString();
     assertTrue("ToString does not contain ship hull name",
-        tmp.contains("Test"));
+        tmp.contains("Scout Mk1"));
     assertTrue("ToString does not contain ship hull free slots",
         tmp.contains("Slots:4"));
   }
 
   @Test
   @Category(org.openRealmOfStars.UnitTest.class)
-  public void testShipHullCentaurs() {
-    ShipHull hull = new ShipHull(0, "Test", 4, 1, ShipHullType.NORMAL,
-        ShipSize.SMALL, 8, 10, SpaceRace.CENTAURS);
-    assertEquals(12, hull.getCost());
-    assertEquals(20, hull.getMetalCost());
+  public void testShipHullHullScoutMK1ByName() {
+    ShipHull hull = ShipHullFactory.createByName("Scout Mk1", SpaceRace.GREYANS);
+    assertEquals(5, hull.getCost());
+    assertEquals(5, hull.getMetalCost());
     assertEquals(0, hull.getIndex());
-    assertEquals("Test", hull.getName());
-    assertEquals(SpaceRace.CENTAURS, hull.getRace());
-    assertEquals(2, hull.getSlotHull());
+    assertEquals("Scout Mk1", hull.getName());
+    assertEquals(SpaceRace.GREYANS, hull.getRace());
+    assertEquals(1, hull.getSlotHull());
     assertEquals(ShipSize.SMALL, hull.getSize());
     assertEquals(4, hull.getMaxSlot());
   }
