@@ -1,8 +1,5 @@
 package org.openRealmOfStars.player.combat;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 import org.openRealmOfStars.AI.Mission.Mission;
 import org.openRealmOfStars.AI.Mission.MissionPhase;
 import org.openRealmOfStars.AI.Mission.MissionType;
@@ -57,7 +54,7 @@ public class Combat {
   /**
    * Ships in list in initiative order
    */
-  private ArrayList<CombatShip> combatShipList;
+  private CombatShipComposite combatShipList;
   /**
    * Current ship index
    */
@@ -129,14 +126,14 @@ public class Combat {
     this.defenderFleet = defenderFleet;
     this.attackerInfo = attackerInfo;
     this.defenderInfo = defenderInfo;
-    combatShipList = new ArrayList<>();
+    combatShipList.initialize();
 
     CombatPositionList bottomList = new BottomPositionList();
     CombatPositionList topList = new TopPositionList();
     addCombatShipList(attackerFleet, attackerInfo, bottomList);
     addCombatShipList(defenderFleet, defenderInfo, topList);
 
-    Collections.sort(combatShipList, Collections.reverseOrder());
+    combatShipList.sortRevers();
     componentUse = -1;
     animation = null;
     winner = null;
@@ -268,18 +265,8 @@ public boolean launchIntercept(final int distance,
    * @return CombatShip or null
    */
   public CombatShip getMostPowerfulShip(final PlayerInfo info) {
-    int strongestPower = 0;
-    CombatShip strongestShip = null;
-    for (CombatShip ship : combatShipList) {
-      if (ship.getPlayer() != info
-          && ship.getShip().getTotalMilitaryPower() > strongestPower) {
-        strongestShip = ship;
-        strongestPower = strongestShip.getShip().getTotalMilitaryPower();
-      }
-    }
-    return strongestShip;
+      return (CombatShip) combatShipList.getMostPowerfulShip(info);
   }
-
   /**
    * Destroy one single ship from the fleet and combat
    * @param ship Combat ship
@@ -333,24 +320,23 @@ public boolean launchIntercept(final int distance,
    */
   public CombatShip getClosestEnemyShip(final PlayerInfo info,
       final CombatShip friendlyShip) {
-    double maxDistance = MAX_DISTANCE;
-    CombatShip enemyShip = null;
-    for (CombatShip ship : combatShipList) {
-      if (ship.getPlayer() != info) {
-        CombatCoordinate centerCoordinate =
-                new CombatCoordinate(friendlyShip.getX(),
-            friendlyShip.getY());
-        CombatCoordinate shipCoordinate =
-                new CombatCoordinate(ship.getX(), ship.getY());
-        double distance = centerCoordinate.calculateDistance(shipCoordinate);
-        if (distance < maxDistance) {
-          enemyShip = ship;
-          maxDistance = distance;
+      double maxDistance = MAX_DISTANCE;
+      CombatShip enemyShip = null;
+      for (CombatShipComponent ship : combatShipList.getCombatShipList()) {
+        if (ship.getPlayer() != info) {
+          CombatCoordinate centerCoordinate =
+                  new CombatCoordinate(friendlyShip.getX(),
+              friendlyShip.getY());
+          CombatCoordinate shipCoordinate =
+                  new CombatCoordinate(ship.getX(), ship.getY());
+          double distance = centerCoordinate.calculateDistance(shipCoordinate);
+          if (distance < maxDistance) {
+            enemyShip = (CombatShip) ship;
+            maxDistance = distance;
+          }
         }
       }
-    }
-    return enemyShip;
-
+      return enemyShip;
   }
 
   /**
@@ -383,7 +369,7 @@ public boolean launchIntercept(final int distance,
    * @return True if blocked false otherwise
    */
   public boolean isBlocked(final int x, final int y) {
-    for (CombatShip ship : combatShipList) {
+    for (CombatShipComponent ship : combatShipList.getCombatShipList()) {
       if (x == ship.getX() && y == ship.getY()) {
         return true;
       }
@@ -424,7 +410,7 @@ public boolean launchIntercept(final int distance,
     if (combatShipList.size() <= shipIndex) {
       shipIndex = 0;
     }
-    return combatShipList.get(shipIndex);
+    return (CombatShip) combatShipList.get(shipIndex);
   }
 
   /**
@@ -448,9 +434,9 @@ public boolean launchIntercept(final int distance,
    * @return CombatShip
    */
   public CombatShip getShipFromCoordinate(final int x, final int y) {
-    for (CombatShip ship : combatShipList) {
+    for (CombatShipComponent ship : combatShipList.getCombatShipList()) {
       if (ship.getX() == x && ship.getY() == y) {
-        return ship;
+        return (CombatShip) ship;
       }
     }
     return null;
@@ -546,7 +532,7 @@ public boolean launchIntercept(final int distance,
     PlayerInfo first = null;
     boolean moreThanOnePlayer = false;
     boolean militaryPower = false;
-    for (CombatShip ship : combatShipList) {
+    for (CombatShipComponent ship : combatShipList.getCombatShipList()) {
       if (first == null) {
         first = ship.getPlayer();
       }
