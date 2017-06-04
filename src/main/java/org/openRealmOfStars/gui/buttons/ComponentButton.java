@@ -6,7 +6,7 @@ import javax.swing.JButton;
 import org.openRealmOfStars.gui.GuiStatics;
 import org.openRealmOfStars.gui.icons.Icons;
 import org.openRealmOfStars.player.ship.Ship;
-import org.openRealmOfStars.player.ship.ShipComponent;
+import org.openRealmOfStars.player.ship.shipcomponent.ShipComponent;
 
 /**
  *

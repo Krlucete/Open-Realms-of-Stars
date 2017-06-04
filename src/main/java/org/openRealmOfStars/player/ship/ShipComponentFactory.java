@@ -1,5 +1,6 @@
 package org.openRealmOfStars.player.ship;
 
+import org.openRealmOfStars.player.ship.shipcomponent.ShipComponent;
 import org.openRealmOfStars.utilities.ErrorLogger;
 
 /**

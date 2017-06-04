@@ -1,4 +1,24 @@
-package org.openRealmOfStars.player.ship;
+package org.openRealmOfStars.player.ship.shipcomponent;
+
+import org.openRealmOfStars.player.ship.ShipComponentType;
+import org.openRealmOfStars.player.ship.shipcomponent.componentstring.ArmorToString;
+import org.openRealmOfStars.player.ship.shipcomponent.componentstring.ClockingDeviceToString;
+import org.openRealmOfStars.player.ship.shipcomponent.componentstring.EnergyResourceToString;
+import org.openRealmOfStars.player.ship.shipcomponent.componentstring.EnergyToString;
+import org.openRealmOfStars.player.ship.shipcomponent.componentstring.EngineToString;
+import org.openRealmOfStars.player.ship.shipcomponent.componentstring.InitiativeToString;
+import org.openRealmOfStars.player.ship.shipcomponent.componentstring.JammerToString;
+import org.openRealmOfStars.player.ship.shipcomponent.componentstring.OrbitalBombsToString;
+import org.openRealmOfStars.player.ship.shipcomponent.componentstring.PlanetaryInvasionModuleToString;
+import org.openRealmOfStars.player.ship.shipcomponent.componentstring.ScannerToString;
+import org.openRealmOfStars.player.ship.shipcomponent.componentstring.ShieldGeneratorToString;
+import org.openRealmOfStars.player.ship.shipcomponent.componentstring.ShieldToString;
+import org.openRealmOfStars.player.ship.shipcomponent.componentstring.TargettingComputerToString;
+import org.openRealmOfStars.player.ship.shipcomponent.componentstring.WeaponBeamToString;
+import org.openRealmOfStars.player.ship.shipcomponent.componentstring.WeaponEcmTorpedoToString;
+import org.openRealmOfStars.player.ship.shipcomponent.componentstring.WeaponHeMissileToString;
+import org.openRealmOfStars.player.ship.shipcomponent.componentstring.WeaponPhotonTorpedoToString;
+import org.openRealmOfStars.player.ship.shipcomponent.componentstring.WeaponRailGunToString;
 
 /**
  *
@@ -380,40 +400,27 @@ public class ShipComponent {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append(getName());
-    sb.append("\n");
-    sb.append("Cost: ");
-    sb.append(getCost());
-    sb.append(" Metal: ");
-    sb.append(getMetalCost());
-    sb.append("\n");
+    ComponentToString csbInite = new ComponentToString(new InitiativeToString(),sb,this);
+    ComponentToString csb = null;
+    csbInite.addString();
     if (getEnergyRequirement() > 0 && getEnergyResource() == 0) {
-      sb.append("Energy: ");
-      sb.append(getEnergyRequirement());
-      sb.append("\n");
+      csb = new ComponentToString(new EnergyToString(),sb,this);
     }
     if (getEnergyResource() > 0) {
-      sb.append("Energy source: ");
-      sb.append(getEnergyResource());
-      sb.append("\n");
+      csb = new ComponentToString(new EnergyResourceToString(),sb,this);
     }
+    csb.addString();
     switch (getType()) {
     case ARMOR: {
-      sb.append("Armor value:");
-      sb.append(getDefenseValue());
-      sb.append("\n");
+      csb = new ComponentToString(new ArmorToString(),sb,this);
       break;
     }
     case SHIELD: {
-      sb.append("Shield value:");
-      sb.append(getDefenseValue());
-      sb.append("\n");
+      csb = new ComponentToString(new ShieldToString(),sb,this);
       break;
     }
     case CLOAKING_DEVICE: {
-      sb.append("Cloaking:");
-      sb.append(getCloaking());
-      sb.append("\n");
+      csb = new ComponentToString(new ClockingDeviceToString(),sb,this);
       break;
     }
     case COLONY_MODULE:
@@ -424,104 +431,57 @@ public class ShipComponent {
       break;
     }
     case ENGINE: {
-      sb.append("Speed: ");
-      sb.append(getSpeed());
-      sb.append(" FTL:");
-      sb.append(getFtlSpeed());
-      sb.append(" Combat Speed:");
-      sb.append(getTacticSpeed());
-      sb.append("\n");
+      csb = new ComponentToString(new EngineToString(),sb,this);
       break;
     }
     case WEAPON_BEAM: {
-      sb.append("Damage: ");
-      sb.append(getDamage());
-      sb.append(" Range:");
-      sb.append(getWeaponRange());
-      sb.append("\nHit: 100%, 50% penetrates armor");
-      sb.append("\n");
+      csb = new ComponentToString(new WeaponBeamToString(),sb,this);
       break;
     }
     case WEAPON_ECM_TORPEDO: {
-      sb.append("Shield damage: ");
-      sb.append(getDamage());
-      sb.append(" Range:");
-      sb.append(getWeaponRange());
-      sb.append("\nHit: 50%, damages only shields");
-      sb.append("\n");
+      csb = new ComponentToString(new WeaponEcmTorpedoToString(),sb,this);
       break;
     }
     case WEAPON_HE_MISSILE: {
-      sb.append("Damage: ");
-      sb.append(getDamage());
-      sb.append(" Range:");
-      sb.append(getWeaponRange());
-      sb.append("\nHit: 50%, 50% penetrates shields");
-      sb.append("\n");
+      csb = new ComponentToString(new WeaponHeMissileToString(),sb,this);
       break;
     }
     case WEAPON_PHOTON_TORPEDO: {
-      sb.append("Damage: ");
-      sb.append(getDamage());
-      sb.append(" Range:");
-      sb.append(getWeaponRange());
-      sb.append("\nHit: 75%, 50% penetrates armor");
-      sb.append("\n");
+      csb = new ComponentToString(new WeaponPhotonTorpedoToString(),sb,this);
       break;
     }
     case WEAPON_RAILGUN: {
-      sb.append("Damage: ");
-      sb.append(getDamage());
-      sb.append(" Range:");
-      sb.append(getWeaponRange());
-      sb.append("\nHit: 50%, 50% penetrates shields");
-      sb.append("\n");
+      csb = new ComponentToString(new WeaponRailGunToString(),sb,this);
       break;
     }
     case JAMMER: {
-      sb.append("Jammer: -");
-      sb.append(getDefenseValue());
-      sb.append("%");
-      sb.append("\n");
+      csb = new ComponentToString(new JammerToString(),sb,this);
       break;
     }
     case ORBITAL_BOMBS: {
-      sb.append("Orbital bombs: ");
-      sb.append("\n");
+      csb = new ComponentToString(new OrbitalBombsToString(),sb,this);
       break;
     }
     case PLANETARY_INVASION_MODULE: {
-      sb.append("Troop combat: ");
-      sb.append(getDamage());
-      sb.append("%");
-      sb.append("\n");
+      csb = new ComponentToString(new PlanetaryInvasionModuleToString(),sb,this);
       break;
     }
     case SCANNER: {
-      sb.append("Range: ");
-      sb.append(getScannerRange());
-      sb.append(" Cloak detection:");
-      sb.append(getCloakDetection());
-      sb.append(" %");
-      sb.append("\n");
+      csb = new ComponentToString(new ScannerToString(),sb,this);
       break;
     }
     case SHIELD_GENERATOR: {
-      sb.append("Shield generator: ");
-      sb.append(getDefenseValue());
-      sb.append("\n");
+      csb = new ComponentToString(new ShieldGeneratorToString(),sb,this);
       break;
     }
     case TARGETING_COMPUTER: {
-      sb.append("Targeting computer: +");
-      sb.append(getDamage());
-      sb.append("% to hit");
-      sb.append("\n");
+      csb = new ComponentToString(new TargettingComputerToString(),sb,this);
       break;
     }
     default:
       // Do nothing
     }
+    csb.addString();
     return sb.toString();
   }
 
