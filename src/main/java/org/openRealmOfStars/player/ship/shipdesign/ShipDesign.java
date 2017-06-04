@@ -8,11 +8,11 @@ import java.util.Collections;
 
 import org.openRealmOfStars.player.SpaceRace.SpaceRace;
 import org.openRealmOfStars.player.SpaceRace.SpaceRaceUtility;
-import org.openRealmOfStars.player.ship.ShipComponent;
 import org.openRealmOfStars.player.ship.ShipComponentFactory;
 import org.openRealmOfStars.player.ship.ShipComponentType;
 import org.openRealmOfStars.player.ship.ShipHullFactory;
 import org.openRealmOfStars.player.ship.ShipHullType;
+import org.openRealmOfStars.player.ship.shipcomponent.ShipComponent;
 import org.openRealmOfStars.player.ship.shiphull.product.ShipHull;
 import org.openRealmOfStars.utilities.IOUtilities;
 

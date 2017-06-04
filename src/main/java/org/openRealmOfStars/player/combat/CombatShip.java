@@ -2,7 +2,7 @@ package org.openRealmOfStars.player.combat;
 
 import org.openRealmOfStars.player.PlayerInfo;
 import org.openRealmOfStars.player.ship.Ship;
-import org.openRealmOfStars.player.ship.ShipComponent;
+import org.openRealmOfStars.player.ship.shipcomponent.ShipComponent;
 
 /**
  *
